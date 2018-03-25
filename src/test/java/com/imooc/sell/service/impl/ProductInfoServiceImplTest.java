@@ -41,7 +41,7 @@ public class ProductInfoServiceImplTest {
 
     @Test
     public void findAll() throws Exception {
-        PageRequest pageRequest = new PageRequest(1, 2);
+        PageRequest pageRequest = new PageRequest(0, 2);
         Page<ProductInfo> all = productInfoService.findAll(pageRequest);
         System.out.println("总记录条数: "+all.getTotalElements());
         Assert.assertNotEquals(0,all.getTotalElements());

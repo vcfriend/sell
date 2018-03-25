@@ -39,3 +39,5 @@ target/classes/SQL/
 target/classes/application.yml
 target/classes/logback-spring.xml
 
+src/main/resources/static/
+src/main/resources/templates/
