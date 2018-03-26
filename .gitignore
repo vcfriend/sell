@@ -30,7 +30,7 @@ mvnw
 mvnw.cmd
 pom.xml
 sell.iml
-#src/main/resources/
+src/main/resources/
 #src/test/
 target/classes/application.properties
 target/generated-sources/
@@ -41,3 +41,5 @@ target/classes/logback-spring.xml
 
 src/main/resources/static/
 src/main/resources/templates/
+doc/product_category.sql
+doc/product_info.sql

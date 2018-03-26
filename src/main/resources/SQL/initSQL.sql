@@ -116,3 +116,19 @@ CREATE TRIGGER `update_seller_info_trigger` BEFORE UPDATE ON `seller_info`
  FOR EACH ROW SET NEW.`update_time` = NOW();
 //
 DELIMITER ;
+
+-- ----------------------------
+-- Records of product_category
+-- ----------------------------
+INSERT INTO `product_category` VALUES (NULL, '男生最爱', '2', NULL, NULL);
+INSERT INTO `product_category` VALUES (NULL, '女生最爱', '3', '2018-03-24 22:18:26', NULL);
+INSERT INTO `product_category` VALUES ('4', '热销榜', '1', '2018-03-25 15:41:47', '2018-03-24 22:18:33');
+INSERT INTO `product_category` VALUES ('5', '主食', '11', '2018-03-25 16:44:56', '2018-03-25 16:54:59');
+
+-- ----------------------------
+-- Records of product_info
+-- ----------------------------
+INSERT INTO `product_info` VALUES ('1', '皮蛋粥', '3.50', '100', '很好吃的粥', 'http://xxxx.jpg', '0', '2', '2018-03-26 02:14:09', '2018-03-26 02:14:09');
+INSERT INTO `product_info` VALUES ('2', '茶叶蛋', '1.50', '100', '好吃又有营养的蛋蛋', 'http://xxxx.jpg', '0', '3', '2018-03-26 02:14:45', '2018-03-26 02:14:45');
+INSERT INTO `product_info` VALUES ('3', '蛋炒饭', '6.00', '100', '美味好吃蛋炒饭', 'http://bbb.jpg', '0', '3', '2018-03-26 02:15:05', '2018-03-26 02:15:05');
+INSERT INTO `product_info` VALUES ('4', '番茄炒蛋', '10.00', '100', '真是太好吃了', 'http://ccc.jpg', '0', '3', '2018-03-26 02:15:05', '2018-03-26 02:15:05');
