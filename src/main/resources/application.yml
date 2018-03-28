@@ -12,6 +12,10 @@ spring:
     #格式化SQL语句
     properties:
       hibernate.format_sql: true
+  jackson:
+    #json返回值属性中不包含null的属性值
+    default-property-inclusion: non_empty
+
 server:
   context-path: /sell
 

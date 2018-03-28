@@ -41,11 +41,11 @@ public class OrderMaster {
     private BigDecimal	orderAmount;
 
     /**订单状态: 默认0新下单*/
-    @Value("#{ T( 0 )}")
+    //@Value("#{ T( 0 )}")
     private Integer	orderStatus = OrderStatusEnum.NEW.getCode();
 
     /**支付状态: 默认0未付款*/
-    @Value("#{ 0 }")
+    //@Value("#{ 0 }")
     private Integer	payStatus = PayStatusEnum.WAIT.getCode();
 
     /**创建时间*/

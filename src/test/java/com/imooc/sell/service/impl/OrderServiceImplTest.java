@@ -18,8 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
@@ -80,9 +78,9 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void findAllByOpentid() throws Exception {
+    public void findAllByOpenid() throws Exception {
         PageRequest pageRequest = new PageRequest(0, 2);
-        Page<OrderDTO> orderDTOPage = orderService.findAllByOpentid(BUYER_OPENID, pageRequest);
+        Page<OrderDTO> orderDTOPage = orderService.findAllByOpenid(BUYER_OPENID, pageRequest);
         log.info("查询买家所有的订单: {} " + orderDTOPage.getContent());
         Assert.assertNotEquals(0,orderDTOPage.getTotalElements());
 

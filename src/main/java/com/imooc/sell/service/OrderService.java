@@ -19,7 +19,7 @@ public interface OrderService {
     OrderDTO findOne(String orderId);
 
     /** 根据买家Id分页查询订单列表 */
-    Page<OrderDTO> findAllByOpentid(String bueryOpenid, Pageable pageable);
+    Page<OrderDTO> findAllByOpenid(String bueryOpenid, Pageable pageable);
 
     /** 取消订单 */
     OrderDTO cancel(OrderDTO orderDTO);
