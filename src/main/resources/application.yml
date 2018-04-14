@@ -26,3 +26,8 @@ server:
 #  file: E:/log/tomcat/sell.log
 #  level:
 #    com.imooc.sell.LoggerTest: debug
+
+#微信公众号Id和Secret配置
+wechat:
+  mpAppId: wxac0848bd5addba82
+  mpAppSecret: cc360e50df89d4029950f4235e2ccdce

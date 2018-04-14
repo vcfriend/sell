@@ -20,7 +20,8 @@ public enum ResultTypeInfoEnum {
     ORDER_DETAIL_EMPTY(16, "订单详情为空"),
     ORDER_PAY_STATUS_ERROR(17, "订单支付状态错误"),
     CART_EMPTY(18,"购物车为空" ),
-    ORDER_OWNER_ERROR(19, "订单openid错误"),;
+    ORDER_OWNER_ERROR(19, "订单openid错误"),
+    WECHAT_MP_ERROR(20,"微信公众号错误");
 
     private Integer code;
 
