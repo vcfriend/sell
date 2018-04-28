@@ -1,0 +1,19 @@
+发件人:lly835@163.com
+公众平台
+wechat:
+ mpAppId: wxd898fcb01713c658
+ mchId: 1483469312
+ mchKey: C5245D70627C1F8E9964D494B0735025
+ keyPath: /var/weixin_cert/h5.p12
+注意：
+1. 使用中遇到问题请看 https://gitee.com/liaoshixiong/best-pay-sdk/blob/master/doc/use.md
+2. 证书文件见附件
+3. appSecret参数支付里是不需要的
+4. 有关微信点餐的问题, 在慕课网提问，邮件提问，无法回复
+
+开放平台
+AppId: wx6ad144e54af67d87
+AppSecret: 91a2ff6d38a2bbccfb7e9f9079108e2e
+使用文档(务必仔细看完)
+https://gitlab-demo.com/SpringBoot/sell/blob/develop/doc/open.md
+以上链接，有这个项目的权限才能打开（https://www.imooc.com/article/23867）

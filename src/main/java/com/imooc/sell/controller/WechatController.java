@@ -28,15 +28,27 @@ public class WechatController {
     @Autowired
     private WxMpService wxMpService;
 
+    /**
+     * 构造网页授权Url让用户来点击确认,为了获取openid
+     * @param returnUrl 回调地址
+     * @return 重定向地址
+     */
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         //1.配置
         //2.调用
-        String url = "http://xsell.s1.natapp.cc/sell/wechat/userInfo";
+        String url = "http://xsell.natapp1.cc/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl));
+        //重定向地址
         return "redirect:" + redirectUrl;
     }
 
+    /**
+     * 微信端用户同意授权后获取 AccessToken,通过AccessToken获取openid
+     * @param code 微信端用户同意授权后回调后,获取到的Authorization code
+     * @param returnUrl 回调地址
+     * @return 返回回调地址并携带openid
+     */
     @GetMapping("/userInfo")
     public String userInfo(@RequestParam("code") String code,
                            @RequestParam("state") String returnUrl) {
