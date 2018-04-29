@@ -6,6 +6,7 @@ import com.imooc.sell.execption.SellExecption;
 import com.imooc.sell.service.OrderService;
 import com.imooc.sell.service.PayService;
 import com.lly835.bestpay.model.PayResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -22,6 +26,8 @@ import java.util.Map;
  * 2018/4/15 11:15
  */
 @Controller
+@Slf4j
+//@RequestMapping("/pay") //错误在此,多一层路径,导致访问 http://xsell.natapp1.cc/pay  出现404
 public class PayController {
     @Autowired
     private OrderService orderService;
@@ -58,13 +64,17 @@ public class PayController {
         //2.创建预支付订单
         PayResponse payResponse = payService.create(one);
         map.put("payResponse", payResponse);
-        map.put("returnUrl", returnUrl);
+        //用这个还不行地址返回时会带有 http://sell.springboot.cn/sell/前缀 ,且报404错误
+        //map.put("returnUrl", URLEncoder.encode(returnUrl));
+        try {
+            String decode = URLEncoder.encode(returnUrl, "UTF-8");
+            map.put("returnUrl", decode);
+        } catch (UnsupportedEncodingException e) {
+            log.error("[支付订单] 解析返回地址错误, returnUrl={}", returnUrl);
+            e.printStackTrace();
+        }
+
         //3.生成JSAPI页面调用的支付参数并签名,返回给微信端让用户向微信支付系统发起支付和确认支付.
         return new ModelAndView("pay/create", map);
-    }
-
-    @GetMapping("/pay/test")
-    public ModelAndView test() {
-        return new ModelAndView("pay/test");
     }
 }
