@@ -62,11 +62,11 @@ public class PayController {
         //2.创建预支付订单
         PayResponse payResponse = payService.create(one);
         map.put("payResponse", payResponse);
-        //用于支付后地址的跳转需要对地址进行编码,
+        //用于支付后地址的跳转需要对地址进行URLDecoder.decode编码,
         //用这个还不行地址返回时会带有 http://sell.springboot.cn/sell/前缀 ,且报404错误
-        //map.put("returnUrl", URLEncoder.encode(returnUrl));
+        //map.put("returnUrl", URLDecoder.decode(returnUrl, "UTF-8"));
         try {
-            String decode = URLEncoder.encode(returnUrl, "UTF-8");
+            String decode = URLDecoder.decode(returnUrl, "UTF-8");
             map.put("returnUrl", decode);
         } catch (UnsupportedEncodingException e) {
             log.error("[支付订单] 解析返回地址错误, returnUrl={}", returnUrl);
