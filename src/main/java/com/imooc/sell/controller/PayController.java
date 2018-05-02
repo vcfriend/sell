@@ -9,9 +9,7 @@ import com.lly835.bestpay.model.PayResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
@@ -64,6 +62,7 @@ public class PayController {
         //2.创建预支付订单
         PayResponse payResponse = payService.create(one);
         map.put("payResponse", payResponse);
+        //用于支付后地址的跳转需要对地址进行编码,
         //用这个还不行地址返回时会带有 http://sell.springboot.cn/sell/前缀 ,且报404错误
         //map.put("returnUrl", URLEncoder.encode(returnUrl));
         try {
@@ -77,4 +76,20 @@ public class PayController {
         //3.生成JSAPI页面调用的支付参数并签名,返回给微信端让用户向微信支付系统发起支付和确认支付.
         return new ModelAndView("pay/create", map);
     }
+
+    /**
+     * Post方式接收 微信异步通知
+     *
+     * @param notifyData @RequestBody用于将前端json字符串转换成nofityData对象
+     * @return 返回json字符串
+     */
+    @PostMapping("/pay/notify")
+    public ModelAndView notify(@RequestBody String notifyData) {
+        //根据微信支付系统的异步通知来处理我们的订单
+        payService.notify(notifyData);
+
+        //返回微信支付系统 支付成功
+        return new ModelAndView("pay/success");
+    }
+
 }
