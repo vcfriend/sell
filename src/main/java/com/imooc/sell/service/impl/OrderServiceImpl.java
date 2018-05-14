@@ -13,6 +13,7 @@ import com.imooc.sell.execption.SellExecption;
 import com.imooc.sell.repository.OrderDetailRepository;
 import com.imooc.sell.repository.OrderMasterRepository;
 import com.imooc.sell.service.OrderService;
+import com.imooc.sell.service.PayService;
 import com.imooc.sell.service.ProductInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +43,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ProductInfoService productInfoService;
+
+    @Autowired
+    private PayService payService;
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
@@ -186,7 +190,7 @@ public class OrderServiceImpl implements OrderService {
 
         //如果已支付, 需要退款
         if (orderDTO.getOrderStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
@@ -237,8 +241,8 @@ public class OrderServiceImpl implements OrderService {
             throw new SellExecption(ResultTypeInfoEnum.ORDER_PAY_STATUS_ERROR);
         }
 
-        //修改支付状态
-        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+
+        //修改订单为已支付状态
         orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
         OrderMaster orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderDTO, orderMaster);

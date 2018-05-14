@@ -8,6 +8,7 @@ import com.imooc.sell.execption.SellExecption;
 import com.imooc.sell.form.OrderForm;
 import com.imooc.sell.service.BuyerOrderService;
 import com.imooc.sell.service.OrderService;
+import com.lly835.bestpay.rest.type.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -104,7 +105,7 @@ public class BuyerOrderController {
      * @param orderId 订单orderId
      * @return
      */
-    @GetMapping("/cancel")
+    @PostMapping("/cancel")
     public ResultVO<OrderDTO> cancel(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId) {
         buyerOrderService.cancelOrder(openid, orderId);
