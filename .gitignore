@@ -28,9 +28,9 @@ hs_err_pid*
 .mvn/
 mvnw
 mvnw.cmd
-pom.xml
+#pom.xml
 sell.iml
-src/main/resources/
+
 #src/test/
 target/classes/application.properties
 target/generated-sources/
@@ -39,6 +39,7 @@ target/classes/SQL/
 target/classes/application.yml
 target/classes/logback-spring.xml
 
+#src/main/resources/
 #src/main/resources/static/
 #src/main/resources/templates/
 doc/product_category.sql
