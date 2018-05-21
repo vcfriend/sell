@@ -21,6 +21,9 @@ public interface OrderService {
     /** 根据买家Id分页查询订单列表 */
     Page<OrderDTO> findAllByOpenid(String bueryOpenid, Pageable pageable);
 
+    /**查询所有订单,分页显示*/
+    Page<OrderDTO> findAll(Pageable pageable);
+
     /** 取消订单 */
     OrderDTO cancel(OrderDTO orderDTO);
 

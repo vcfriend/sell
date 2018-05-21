@@ -1,9 +1,13 @@
 package com.imooc.sell.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imooc.sell.dataobject.OrderDetail;
+import com.imooc.sell.enums.OrderStatusEnum;
+import com.imooc.sell.enums.PayStatusEnum;
 import lombok.Data;
+import utils.EnumUtil;
 import utils.serializer.Date2LongSerializer;
 
 import java.math.BigDecimal;
@@ -60,4 +64,23 @@ public class OrderDTO {
      * 如果属性是Json返回值中的必填项,就需要在此初始化
      * */
     List<OrderDetail> orderDetailList = new ArrayList<>();
+
+    /**
+     * 获取订单状态的枚举类型
+     * _@JsonIgnore 用于前端返回JSON时忽略些属性
+     * @return
+     */
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+    }
+    /**
+     * 获取支付状态的枚举类型
+     * _@JsonIgnore 用于前端返回JSON时忽略些属性
+     * @return
+     */
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getByCode(payStatus, PayStatusEnum.class);
+    }
 }

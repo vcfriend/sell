@@ -5,6 +5,7 @@ import com.imooc.sell.dto.OrderDTO;
 import com.imooc.sell.enums.OrderStatusEnum;
 import com.imooc.sell.enums.PayStatusEnum;
 import com.imooc.sell.service.OrderService;
+import com.lly835.bestpay.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -86,6 +87,14 @@ public class OrderServiceImplTest {
 
     }
 
+    @Test
+    public void findALl() throws Exception {
+        PageRequest pageRequest = new PageRequest(0, 2);
+        Page<OrderDTO> orderDTOPage = orderService.findAll(pageRequest);
+        log.info("分页查询买家所有订单: {}" , JsonUtil.toJson(orderDTOPage.getContent()));
+        //Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
+        Assert.assertTrue("分页查询买家所有订单", orderDTOPage.getTotalElements() > 0);
+    }
     @Test
     public void cancel() throws Exception {
         OrderDTO one = orderService.findOne(ORDER_ID);
