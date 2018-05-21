@@ -1,7 +1,10 @@
 package com.imooc.sell.controller;
 
 import com.imooc.sell.dto.OrderDTO;
+import com.imooc.sell.enums.ResultTypeInfoEnum;
+import com.imooc.sell.execption.SellExecption;
 import com.imooc.sell.service.OrderService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +22,7 @@ import java.util.Map;
  * @author 向亚林
  * 2018/5/15 11:46
  */
+@Log4j
 @Controller
 @RequestMapping("/seller/order")
 public class SellerOrderController {
@@ -27,10 +31,11 @@ public class SellerOrderController {
     private OrderService orderService;
 
     /**
-     *订单列表
+     * 订单列表
+     *
      * @param page 页码 从1开始
      * @param size 每页显示条数
-     * @param map 前端页面显示
+     * @param map  前端页面显示
      * @return
      */
     @GetMapping("/list")
@@ -43,6 +48,32 @@ public class SellerOrderController {
         map.put("currentPage", page);
         map.put("size", size);
         return new ModelAndView("order/list", map);
+    }
+
+    /**
+     * 取消订单
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("cancel")
+    public ModelAndView cancel(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               @RequestParam("orderId") String orderId,
+                               Map<String, Object> map) {
+        String url = "/seller/order/list?page="+page+"&size="+size;
+        try {
+            OrderDTO orderDTO = orderService.findOne(orderId);
+            orderService.cancel(orderDTO);
+        } catch (SellExecption e) {
+            log.info("[卖家端取消订单] 发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", url);
+            return new ModelAndView("common/error", map);
+        }
+        map.put("msg", ResultTypeInfoEnum.ORDER_CANCEL_SUCCESS.getMessage());
+        map.put("url", url);
+        return new ModelAndView("common/success");
     }
 }
 
