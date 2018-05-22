@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>卖家商品列表</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+<#assign ctx=springMacroRequestContext.contextPath />
 </head>
 <body>
 <div class="container">
@@ -55,8 +56,8 @@
         <#--按钮操作-->
         <div class="col-md-12 column">
             <#if orderDTO.getOrderStatusEnum().message == "新订单">
-            <a href="/seller/order/finish?page=${currentPage}&size=${size}&orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-primary">完结订单</a>
-            <a href="/seller/order/cancel?page=${currentPage}&size=${size}&orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-danger">取消订单</a>
+            <a href="${ctx}/seller/order/finish?page=${currentPage}&size=${size}&orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-primary">完结订单</a>
+            <a href="${ctx}/seller/order/cancel?page=${currentPage}&size=${size}&orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-danger">取消订单</a>
             </#if>
         </div>
     </div>

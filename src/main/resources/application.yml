@@ -18,6 +18,10 @@ spring:
     cache: false
     settings:
       template_update_delay: 0
+#      获取request.contextPath
+    request-context-attribute: request
+
+
 #server:
 #  context-path: /sell
 
