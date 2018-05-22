@@ -50,3 +50,5 @@ target/classes/static/
 target/classes/templates/
 target/maven-status/
 target/surefire-reports/
+pom.xml
+

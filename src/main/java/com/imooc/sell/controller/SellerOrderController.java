@@ -52,6 +52,7 @@ public class SellerOrderController {
 
     /**
      * 取消订单
+     *
      * @param orderId
      * @param map
      * @return
@@ -61,7 +62,7 @@ public class SellerOrderController {
                                @RequestParam(value = "size", defaultValue = "10") Integer size,
                                @RequestParam("orderId") String orderId,
                                Map<String, Object> map) {
-        String url = "/seller/order/list?page="+page+"&size="+size;
+        String url = "/seller/order/list?page=" + page + "&size=" + size;
         try {
             OrderDTO orderDTO = orderService.findOne(orderId);
             orderService.cancel(orderDTO);
@@ -72,6 +73,66 @@ public class SellerOrderController {
             return new ModelAndView("common/error", map);
         }
         map.put("msg", ResultTypeInfoEnum.ORDER_CANCEL_SUCCESS.getMessage());
+        map.put("url", url);
+        return new ModelAndView("common/success");
+    }
+
+    /**
+     * 订单详情
+     * page和size用于订单详情返回时,回到当初商品列表的页面
+     *
+     * @param page
+     * @param size
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("detail")
+    public ModelAndView detail(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               @RequestParam("orderId") String orderId,
+                               Map<String, Object> map) {
+        String url = "/seller/order/list?page=" + page + "&size=" + size;
+        //String url = "/seller/order/list";
+        OrderDTO orderDTO = new OrderDTO();
+        try {
+            orderDTO = orderService.findOne(orderId);
+        } catch (SellExecption e) {
+            log.info("[卖家端查询订单详情] 发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", url);
+            return new ModelAndView("common/error", map);
+        }
+        map.put("orderDTO", orderDTO);
+        map.put("currentPage", page);
+        map.put("size", size);
+        return new ModelAndView("order/detail");
+    }
+
+    /**
+     * 完结订单
+     * @param page
+     * @param size
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("finish")
+    public ModelAndView finish(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               @RequestParam("orderId") String orderId,
+                               Map<String, Object> map) {
+        String url = "/seller/order/list?page=" + page + "&size=" + size;
+        try {
+            OrderDTO orderDTO = orderService.findOne(orderId);
+            orderService.finish(orderDTO);
+        } catch (SellExecption e) {
+            log.info("[卖家端完结订单] 发生异常{}", e);
+            map.put("msg", e.getMessage());
+            map.put("url", url);
+            return new ModelAndView("common/error", map);
+        }
+        map.put("msg", ResultTypeInfoEnum.ORDER_FINISH_SUCCESS.getMessage());
         map.put("url", url);
         return new ModelAndView("common/success");
     }
