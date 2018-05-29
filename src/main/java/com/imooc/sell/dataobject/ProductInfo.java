@@ -1,10 +1,14 @@
 package com.imooc.sell.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.imooc.sell.enums.ProductStatusEnum;
 import lombok.Data;
+import org.apache.commons.lang3.EnumUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author 向亚林
@@ -31,5 +35,14 @@ public class ProductInfo {
     /** 商品类目 */
     private Integer categoryType;
 
+    private Date createTime;
+
+    private Date updateTime;
+
+    /**获取商品状态的枚举*/
+    @JsonIgnore
+    public ProductStatusEnum getProductStatus() {
+        return EnumUtils.getEnumList(ProductStatusEnum.class).get(productStatus);
+    }
 
 }
