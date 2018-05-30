@@ -1,4 +1,5 @@
 <html>
+<#assign title="订单列表"/>
 <#include "../common/header.ftl">
 <body>
 <div id="wrapper" class="toggled">

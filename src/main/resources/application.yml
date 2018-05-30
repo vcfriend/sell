@@ -22,8 +22,8 @@ spring:
     request-context-attribute: request
 
 
-#server:
-#  context-path: /sell
+server:
+  context-path: /sell
 
 #logging:
 #  pattern:

@@ -28,8 +28,8 @@ public class ProductInfo {
     private Integer productStock;
     /** 商品描述 */
     private String productDescription;
-    /** 商品状态: 0正常1下架 */
-    private Integer productStatus;
+    /** 商品状态: 0正常1下架 默认下架*/
+    private Integer productStatus = ProductStatusEnum.DOWN.getCode();
     /** 商品图标 */
     private String productIcon;
     /** 商品类目 */
@@ -38,7 +38,6 @@ public class ProductInfo {
     private Date createTime;
 
     private Date updateTime;
-
     /**获取商品状态的枚举*/
     @JsonIgnore
     public ProductStatusEnum getProductStatus() {
