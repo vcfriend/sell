@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author 亚林
- * @time 19/10/4,0004、16:37
+ * date 19/10/4
  */
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer> {
   List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
