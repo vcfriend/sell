@@ -2,6 +2,7 @@ package com.imooc.xsell.service.impl;
 
 import com.imooc.xsell.dataobject.ProductInfo;
 import com.imooc.xsell.enums.ProductStatusEnum;
+import lombok.NoArgsConstructor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@NoArgsConstructor
 public class ProductServiceImplTest {
   @Autowired
   ProductServiceImpl productService;
@@ -52,6 +52,7 @@ public class ProductServiceImplTest {
     productInfo.setCategoryType(2);
 
     ProductInfo result = productService.save(productInfo);
+    System.out.println(result);
 
   }
 }
