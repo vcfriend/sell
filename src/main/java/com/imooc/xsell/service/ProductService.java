@@ -1,6 +1,7 @@
 package com.imooc.xsell.service;
 
 import com.imooc.xsell.dataobject.ProductInfo;
+import com.imooc.xsell.dto.CartDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,9 @@ public interface ProductService {
 
   ProductInfo save(ProductInfo productInfo);
 
-  //加库存
+  /** 加库存 */
+  void increaseStock(List<CartDto> cartDtoList);
 
-  //减库存
+  /** 减库存 */
+  void decreaseStock(List<CartDto> cartDtoList);
 }

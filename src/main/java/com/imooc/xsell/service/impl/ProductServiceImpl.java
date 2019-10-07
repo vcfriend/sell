@@ -1,7 +1,10 @@
 package com.imooc.xsell.service.impl;
 
+import com.imooc.xsell.ResultEnum.ResultEnum;
 import com.imooc.xsell.dataobject.ProductInfo;
+import com.imooc.xsell.dto.CartDto;
 import com.imooc.xsell.enums.ProductStatusEnum;
+import com.imooc.xsell.exception.SellException;
 import com.imooc.xsell.repository.ProductInfoRepository;
 import com.imooc.xsell.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -42,5 +46,41 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public ProductInfo save(ProductInfo productInfo) {
     return repository.save(productInfo);
+  }
+
+  /**
+   * 加库存
+   *
+   * @param cartDtoList 购物车列表
+   */
+  @Override
+  public void increaseStock(List<CartDto> cartDtoList) {
+    
+  }
+
+  /**
+   * 减库存
+   *
+   * @param cartDtoList 购物车列表
+   */
+  @Override
+  @Transactional
+  public void decreaseStock(List<CartDto> cartDtoList) {
+    for (CartDto cartDto : cartDtoList) {
+      // 查询商品信息是否存在
+      ProductInfo productInfo = repository.findOne(cartDto.getProductId());
+      if (productInfo == null) {
+        throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+      }
+      // 商品库存是否大于销售数量
+      Integer stock = productInfo.getProductStock() - cartDto.getProductQuantity();
+      if ( stock < 0) {
+        throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
+      }
+      
+      productInfo.setProductStock(stock);
+      
+      repository.save(productInfo);
+    }
   }
 }
