@@ -19,8 +19,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -96,7 +98,19 @@ public class OrderServiceImpl implements OrderService {
    */
   @Override
   public BuyerOrderDto findOne(String orderId) {
-    return null;
+    OrderMaster orderMaster = orderMasterRepository.findOne(orderId);
+    if (orderMaster == null) {
+      throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+    }
+    List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
+    if (CollectionUtils.isEmpty(orderDetailList)) {
+      throw new SellException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
+    }
+    BuyerOrderDto buyerOrderDto = new BuyerOrderDto();
+    BeanUtils.copyProperties(orderMaster, buyerOrderDto);
+    buyerOrderDto.setOrderDetailList(orderDetailList);
+    
+    return buyerOrderDto;
   }
 
   /**
@@ -106,7 +120,14 @@ public class OrderServiceImpl implements OrderService {
    */
   @Override
   public Page<BuyerOrderDto> findList(String buyerOpenid, Pageable pageable) {
-    return null;
+    Page<OrderMaster> orderMasterPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
+//    将orderMasterList转换成buyerOrderDtoList
+    List<BuyerOrderDto> buyerOrderDtoList = orderMasterPage.getContent().stream().map(orderMaster -> {
+      BuyerOrderDto buyerOrderDto = new BuyerOrderDto();
+      BeanUtils.copyProperties(orderMaster, buyerOrderDto);
+      return buyerOrderDto;
+    }).collect(Collectors.toList());
+    return new PageImpl<>(buyerOrderDtoList,pageable,orderMasterPage.getTotalElements());
   }
 
   /**

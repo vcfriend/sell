@@ -11,8 +11,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderDetailRepositoryTest {
@@ -35,14 +33,9 @@ public class OrderDetailRepositoryTest {
     System.out.println("save = " + save);
   }
   @Test
-  public void findByOrOrderId() {
-    OrderDetail byOrOrderId = repository.findByOrOrderId("1111");
-    System.out.println("byOrOrderId = " + byOrOrderId);
-  }
-
-  @Test
-  public void findByOrOrderIdIn() {
-    List<OrderDetail> orderDetailList = repository.findByOrOrderIdIn(Arrays.asList("1111", "2222"));
+  public void findByOrderId() {
+    List<OrderDetail> orderDetailList = repository.findByOrderId("1111");
     orderDetailList.forEach(System.out::println);
   }
+  
 }
