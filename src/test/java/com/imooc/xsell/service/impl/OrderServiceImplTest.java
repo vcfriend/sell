@@ -2,6 +2,8 @@ package com.imooc.xsell.service.impl;
 
 import com.imooc.xsell.dataobject.OrderDetail;
 import com.imooc.xsell.dto.BuyerOrderDto;
+import com.imooc.xsell.enums.OrderStatusEnum;
+import com.imooc.xsell.enums.PayStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -64,13 +66,22 @@ public class OrderServiceImplTest {
 
   @Test
   public void cancel() {
+    BuyerOrderDto one = orderService.findOne(ORDER_ID);
+    BuyerOrderDto cancel = orderService.cancel(one);
+    Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(),cancel.getOrderStatus());
   }
 
   @Test
   public void finish() {
+    BuyerOrderDto one = orderService.findOne(ORDER_ID);
+    BuyerOrderDto finish = orderService.finish(one);
+    Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(), finish.getOrderStatus());
   }
 
   @Test
   public void pdid() {
+    BuyerOrderDto one = orderService.findOne(ORDER_ID);
+    BuyerOrderDto pdid = orderService.pdid(one);
+    Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(), pdid.getPayStatus());
   }
 }

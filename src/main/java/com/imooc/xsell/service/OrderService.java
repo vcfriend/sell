@@ -36,7 +36,7 @@ public interface OrderService {
   /** 取消订单 */
   BuyerOrderDto cancel(BuyerOrderDto buyerOrderDto);
 
-  /** 取消订单 */
+  /** 完结订单 */
   BuyerOrderDto finish(BuyerOrderDto buyerOrderDto);
 
   /** 支付订单 */
