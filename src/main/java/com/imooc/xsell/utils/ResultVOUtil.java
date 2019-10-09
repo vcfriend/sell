@@ -7,7 +7,7 @@ import com.imooc.xsell.VO.ResultVO;
  * date 19/10/5,0005 20:16
  */
 public class ResultVOUtil {
-  public static ResultVO<Object> success(Object object) {
+  public static ResultVO success(Object object) {
     ResultVO<Object> resultVO = new ResultVO<>();
     resultVO.setCode(0);
     resultVO.setMsg("成功");
@@ -15,7 +15,7 @@ public class ResultVOUtil {
     return resultVO;
   }
 
-  public static ResultVO<Object> success() {
+  public static ResultVO success() {
     return success(null);
   }
 
