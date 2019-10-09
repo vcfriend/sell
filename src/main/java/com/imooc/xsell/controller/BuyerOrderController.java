@@ -1,5 +1,6 @@
 package com.imooc.xsell.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,17 +52,20 @@ public class BuyerOrderController {
             .setBuyerPhone(orderForm.getPhone())
             .setBuyerAddress(orderForm.getAddress())
             .setBuyerOpenid(orderForm.getOpenid());
-    /*使用Gson解析把json中的list列表数据转换成list对象*/
-    Gson gson = new Gson();
-    List<OrderDetail> orderDetailList;
-    try {
-      orderDetailList = gson.fromJson(orderForm.getItems(),
-              new TypeToken<List<OrderDetail>>() {
-              }.getType());
-    } catch (JsonSyntaxException e) {
-      log.error("[json对象转换] 错误, string={} ",orderForm.getItems());
-      throw new SellException(ResultEnum.PARAM_ERROR);
-    }
+//    /*使用Gson解析把json中的list列表数据转换成list对象*/
+//    Gson gson = new Gson();
+//    List<OrderDetail> orderDetailList;
+//    try {
+//      orderDetailList = gson.fromJson(orderForm.getItems(),
+//              new TypeToken<List<OrderDetail>>() {
+//              }.getType());
+//    } catch (JsonSyntaxException e) {
+//      log.error("[json对象转换] 错误, string={} ",orderForm.getItems());
+//      throw new SellException(ResultEnum.PARAM_ERROR);
+//    }
+
+    /*使用fastjson 把json字符串数组转换成list*/
+    List<OrderDetail> orderDetailList = JSON.parseArray(orderForm.getItems(), OrderDetail.class);
     if (orderDetailList == null) {
       log.error("[创建订单] 购物车不能为空");
       throw new SellException(ResultEnum.CART_NOT_EMPTY);
@@ -70,7 +73,7 @@ public class BuyerOrderController {
     buyerOrderDto.setOrderDetailList(orderDetailList);
     BuyerOrderDto createResult = orderService.create(buyerOrderDto);
 
-    HashMap<Object, Object> map = new HashMap<>();
+    HashMap<String, String> map = new HashMap<>();
     map.put("orderId", createResult.getOrderId());
 
     return ResultVOUtil.success(map);
