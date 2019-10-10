@@ -15,10 +15,10 @@ import com.imooc.xsell.utils.ResultVOUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -78,11 +78,39 @@ public class BuyerOrderController {
 
     return ResultVOUtil.success(map);
   }
-  
+
   /*查询订单列表*/
-  
+  @GetMapping("/list")
+  public ResultVO<List<BuyerOrderDto>> list(@RequestParam("openid") String openid,
+                                            @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    if (openid.isEmpty()) {
+      log.error("[查询订单列表] openid为空");
+      throw new SellException(ResultEnum.PARAM_ERROR);
+    }
+    Page<BuyerOrderDto> buyerOrderDtoPage = orderService.findList(openid, new PageRequest(page, size));
+
+    return ResultVOUtil.success(buyerOrderDtoPage.getContent());
+  }
+
   /*查询订单详情*/
-  
+  @GetMapping("/detail")
+  public ResultVO<BuyerOrderDto> detail(@RequestParam("openid") String openid,
+                                        @RequestParam("orderId") String orderId) {
+    //TODO 不安全的做法, 待改进
+    BuyerOrderDto one = orderService.findOne(orderId);
+    
+    return ResultVOUtil.success(one);
+  }
+
   /*取消订单*/
-  
+  @PostMapping("/cancel")
+  public ResultVO cancel(@RequestParam("openid") String openid,
+                         @RequestParam("orderId") String orderId) {
+    //TODO 不安全的做法, 待改进
+    BuyerOrderDto one = orderService.findOne(orderId);
+    orderService.cancel(one);
+
+    return ResultVOUtil.success();
+  }
 }
