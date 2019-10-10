@@ -10,6 +10,7 @@ import com.imooc.xsell.dataobject.OrderDetail;
 import com.imooc.xsell.dto.BuyerOrderDto;
 import com.imooc.xsell.exception.SellException;
 import com.imooc.xsell.form.OrderForm;
+import com.imooc.xsell.service.BuyerService;
 import com.imooc.xsell.service.OrderService;
 import com.imooc.xsell.utils.ResultVOUtil;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,8 @@ import java.util.Map;
 public class BuyerOrderController {
   
   private final OrderService orderService;
+
+  private final BuyerService buyerService;
 
   /** 创建订单 */
   @PostMapping("/create")
@@ -97,20 +100,17 @@ public class BuyerOrderController {
   @GetMapping("/detail")
   public ResultVO<BuyerOrderDto> detail(@RequestParam("openid") String openid,
                                         @RequestParam("orderId") String orderId) {
-    //TODO 不安全的做法, 待改进
-    BuyerOrderDto one = orderService.findOne(orderId);
+    BuyerOrderDto orderOne = buyerService.findOrderOne(openid, orderId);
     
-    return ResultVOUtil.success(one);
+    return ResultVOUtil.success(orderOne);
   }
 
   /*取消订单*/
   @PostMapping("/cancel")
   public ResultVO cancel(@RequestParam("openid") String openid,
                          @RequestParam("orderId") String orderId) {
-    //TODO 不安全的做法, 待改进
-    BuyerOrderDto one = orderService.findOne(orderId);
-    orderService.cancel(one);
-
+    buyerService.cancelOrder(openid, orderId);
+    
     return ResultVOUtil.success();
   }
 }
