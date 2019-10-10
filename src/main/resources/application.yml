@@ -1,11 +1,14 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.43.237:3306/sell?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:5722/sell?characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: root
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+  jackson:
+#    json返回时,忽略为null的字段
+    default-property-inclusion: non_null
 server:
   context-path: /sell 

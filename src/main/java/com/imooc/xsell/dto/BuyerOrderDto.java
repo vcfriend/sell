@@ -1,6 +1,8 @@
 package com.imooc.xsell.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imooc.xsell.dataobject.OrderDetail;
+import com.imooc.xsell.utils.serialize.Date2LongSerialize;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -32,9 +34,11 @@ public class BuyerOrderDto {
   private Integer orderStatus;
   /** 支付状态 默认为0 未支付*/
   private Integer payStatus;
-  /** 创建时间 */
+  /** 创建时间 使用JsonSerialize注解自动对返回的时间戳按秒显示*/
+  @JsonSerialize(using = Date2LongSerialize.class)
   private Date createTime;
   /** 更新时间 */
+  @JsonSerialize(using = Date2LongSerialize.class)
   private Date updateTime;
   /** 买家订单详情列表 */
   List<OrderDetail> orderDetailList;
