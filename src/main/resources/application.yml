@@ -12,8 +12,12 @@ spring:
     default-property-inclusion: non_null
 server:
   context-path: /sell
-  
+
+#  微信支付配置
 wechat:
-#  公众号AppId
   mpAppId: wx7029de18a88b409b
   mpAppSecret: 7de357dc867219daadb60c588dbe4a72
+  mchId: 148xxxxxxxx
+  mchKey: xxxxxxxxx
+  keyPath: D:/edu/GitHub/imooc/my/xsell/doc/weixin_cert/h5.p12
+  notifyUrl: http://xsell.nat300.top/sell/pay/notify
