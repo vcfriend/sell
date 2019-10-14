@@ -17,7 +17,7 @@ server:
 wechat:
   mpAppId: wx7029de18a88b409b
   mpAppSecret: 7de357dc867219daadb60c588dbe4a72
-  mchId: 148xxxxxxxx
-  mchKey: xxxxxxxxx
+  mchId: 1483469312
+  mchKey: C5245D70627C1F8E9964D494B0735025
   keyPath: D:/edu/GitHub/imooc/my/xsell/doc/weixin_cert/h5.p12
   notifyUrl: http://xsell.nat300.top/sell/pay/notify

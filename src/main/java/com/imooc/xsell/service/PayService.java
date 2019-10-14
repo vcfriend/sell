@@ -1,6 +1,7 @@
 package com.imooc.xsell.service;
 
 import com.imooc.xsell.dto.BuyerOrderDto;
+import com.lly835.bestpay.model.PayResponse;
 
 /**
  * 支付
@@ -10,5 +11,7 @@ import com.imooc.xsell.dto.BuyerOrderDto;
  */
 public interface PayService {
 
-  void create(BuyerOrderDto buyerOrderDto);
+  PayResponse create(BuyerOrderDto buyerOrderDto);
+
+  PayResponse notify(String notifyData);
 }
