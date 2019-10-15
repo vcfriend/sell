@@ -12,6 +12,7 @@ import com.imooc.xsell.exception.SellException;
 import com.imooc.xsell.repository.OrderDetailRepository;
 import com.imooc.xsell.repository.OrderMasterRepository;
 import com.imooc.xsell.service.OrderService;
+import com.imooc.xsell.service.PayService;
 import com.imooc.xsell.service.ProductService;
 import com.imooc.xsell.utils.KeyUtil;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +39,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@NoArgsConstructor
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class OrderServiceImpl implements OrderService {
 
-  private ProductService productService;
-  private OrderDetailRepository orderDetailRepository;
-  private OrderMasterRepository orderMasterRepository;
+  private final ProductService productService;
+  private final OrderDetailRepository orderDetailRepository;
+  private final OrderMasterRepository orderMasterRepository;
 
   /**
    * 创建订单
@@ -167,10 +168,6 @@ public class OrderServiceImpl implements OrderService {
             .collect(Collectors.toList());
     productService.increaseStock(cartDtoList);
     
-    //如果已支付,需要退款
-    if (buyerOrderDto.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-      //TODO 取消已支付订单
-    }
     return buyerOrderDto;
   }
 

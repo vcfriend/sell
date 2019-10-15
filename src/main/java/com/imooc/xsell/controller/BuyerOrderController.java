@@ -8,10 +8,12 @@ import com.imooc.xsell.ResultEnum.ResultEnum;
 import com.imooc.xsell.VO.ResultVO;
 import com.imooc.xsell.dataobject.OrderDetail;
 import com.imooc.xsell.dto.BuyerOrderDto;
+import com.imooc.xsell.enums.PayStatusEnum;
 import com.imooc.xsell.exception.SellException;
 import com.imooc.xsell.form.OrderForm;
 import com.imooc.xsell.service.BuyerService;
 import com.imooc.xsell.service.OrderService;
+import com.imooc.xsell.service.PayService;
 import com.imooc.xsell.utils.ResultVOUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,8 @@ public class BuyerOrderController {
   private final OrderService orderService;
 
   private final BuyerService buyerService;
+
+  private final PayService payService;
 
   /** 创建订单 */
   @PostMapping("/create")
@@ -109,8 +113,13 @@ public class BuyerOrderController {
   @PostMapping("/cancel")
   public ResultVO cancel(@RequestParam("openid") String openid,
                          @RequestParam("orderId") String orderId) {
-    buyerService.cancelOrder(openid, orderId);
-    
+    BuyerOrderDto buyerOrderDto = buyerService.cancelOrder(openid, orderId);
+
+    //如果已支付,需要退款
+    if (buyerOrderDto.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
+      payService.refund(buyerOrderDto);
+    }
+
     return ResultVOUtil.success();
   }
 }
