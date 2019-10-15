@@ -41,5 +41,8 @@ public interface OrderService {
 
   /** 支付订单 */
   BuyerOrderDto pdid(BuyerOrderDto buyerOrderDto);
+
+  /** 查询订单列表 */
+  Page<BuyerOrderDto> findList(Pageable pageable);
   
 }

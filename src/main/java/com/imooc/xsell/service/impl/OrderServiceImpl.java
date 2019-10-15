@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -223,5 +222,17 @@ public class OrderServiceImpl implements OrderService {
     }
     
     return buyerOrderDto;
+  }
+
+  @Override
+  public Page<BuyerOrderDto> findList(Pageable pageable) {
+    Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
+//    将orderMasterList转换成buyerOrderDtoList
+    List<BuyerOrderDto> buyerOrderDtoList = orderMasterPage.getContent().stream().map(orderMaster -> {
+      BuyerOrderDto buyerOrderDto = new BuyerOrderDto();
+      BeanUtils.copyProperties(orderMaster, buyerOrderDto);
+      return buyerOrderDto;
+    }).collect(Collectors.toList());
+    return new PageImpl<>(buyerOrderDtoList, pageable, orderMasterPage.getTotalElements());
   }
 }
